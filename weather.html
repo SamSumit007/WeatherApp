@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    body{
+        background-color: black;
+    }
+
+    .cont{
+        width: 100%;
+        height: 600px;
+        margin: auto;
+       
+    }
+    .nav{
+        width: 100%;
+        margin: auto;
+        height: 180px;
+        background-color: black;
+    }
+    .nav > h1{
+        color: white;
+        padding-left: 2%;
+        padding-top: 1%;
+    }
+    .nav > h1 > span{
+       color: green;
+    }
+    #search_div{
+        width: 80%;
+        height: 90px;
+        border-radius:10px;
+        border: 1px solid green;
+         background-color: green; 
+        margin-top: 1%;
+        margin-left: auto;
+        margin-right: auto;
+        
+    }
+     #search_div > h3{
+        padding-left: 13%;
+        padding-top: 2%;
+        font-size: 25px;
+        color: white;
+        
+    } 
+    #search_div > h3 > input{
+        width: 40%;
+        height: 35px;
+        padding-left: 3%;
+        border-radius: 10px;
+        border: none;
+    }
+    #search_div > h3 > button {
+        width: 10%;
+        font-size: 22px;
+        border-radius: 10px;
+        border: none;
+    }
+    .main{
+        display: flex;
+        margin: 10px;
+        padding: 2px;
+    }
+    #dis{
+        color: white;
+        border: 1px solid blue;
+        width: 49%;
+        height: 400px;
+         font-size: 22px;
+    }
+    #dis > div >p{
+       padding: 15px;
+       
+        font-size: 22px;
+    }
+    #dis1{
+       
+        border: 1px solid red;
+        width: 49%;
+        height: 400px;
+    }
+    
+    
+</style>
+
+</head>
+<body>
+
+    <div class="nav">
+        <h1>Weather <span>Search...</span></h1>
+        <div id="search_div">
+           <h3>Search Weather <input id="city" type="text" placeholder="Search weather here" >
+         <button  id="search" >Search</button></h3>
+           
+        </div>
+    </div>
+
+
+   
+           
+      
+ <div class="main">
+     
+
+    <div id="dis"></div>
+
+    <div id="dis1"></div>
+
+ </div>
+     
+  
+    
+</body>
+</html>
+
+ <script>
+
+var key = "440f8e07876056047055a662b864e6d1";
+    
+
+    document.getElementById("search").addEventListener("click", function(){
+
+        let city = document.getElementById("city").value;
+        console.log("here")
+        console.log(city)
+        displayitems(city)
+
+    })
+     
+     
+      
+     async function displayitems(city){
+     
+         
+             
+
+             try{
+                var url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
+
+                var res = await fetch(url);
+
+                var data = await res.json()
+                 appendWeather(data)
+                 console.log(data)
+                
+                
+             }
+             catch(err){
+                 console.log("error")
+                
+             }
+      document.getElementById("dis1").innerHTML = `<div class="mapouter"><div class="gmap_canvas">
+        <iframe width="600" height="400" id="gmap_canvas" src="https://maps.google.com/maps?q=${city}&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+        <a href="https://www.whatismyip-address.com/divi-discount/"></a><br>
+        <a href="https://www.embedgooglemap.net"></a></div></div>`    
+     }
+
+
+ displayitems(city)
+ 
+
+    
+
+    
+     
+       function appendWeather(data){
+          document.getElementById("dis").innerHTML = ""
+                 var div1 = document.createElement("div")
+             div1.setAttribute("class", " Div_first")
+               var div2 = document.createElement("div")
+               div2.setAttribute("class", " Div_second")
+              
+    
+                 var temp = document.createElement("p")
+                  temp.textContent = "Temperatur" + " - " + data.main.temp;
+
+
+                var temp_max = document.createElement("p")
+                  temp_max.textContent = "max_temperature" + "-  " + data.main.temp_max;
+
+
+                  var temp_min = document.createElement("p")
+                  temp_min.textContent =  "min_temperature" + "-  " + data.main.temp_min;
+
+
+                  
+                  var sunrise = document.createElement("p")
+                  sunrise.textContent = data.sys.sunrise;
+
+                  var sunset = document.createElement("p")
+                  sunset.textContent = data.sys.sunset;
+
+                  var wind = document.createElement("p")
+                  wind.textContent = "windSpeed" + "-  " + data.wind.speed;
+
+                  var cloud = document.createElement("p")
+                  cloud.textContent = "cloud" + " - " + data.clouds.all;
+               
+    
+                // div1.append(imgtag)
+    
+                div2.append(temp,temp_max,temp_min,wind,cloud)
+            
+               
+               
+     
+               var x = document.getElementById("dis")
+                x.append(div2)
+
+                
+
+        
+             
+        }
+ 
+    
+ 
+ 
+
+ </script>
